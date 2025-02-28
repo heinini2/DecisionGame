@@ -33,11 +33,15 @@ public class AutoController : MonoBehaviour
     {
         if (currentTarget != null)
         {
-            // Bewege das Auto zur aktuellen Zielposition
-            transform.position = Vector3.MoveTowards(transform.position, currentTarget.position, Time.deltaTime * moveSpeed);
+
+
+            // Fixiere die Y-Höhe und bewege nur auf X/Z
+            Vector3 targetPosition = new Vector3(currentTarget.position.x, transform.position.y, currentTarget.position.z);
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, Time.deltaTime * moveSpeed);
+
 
             // Prüfen, ob das Auto den Eingang erreicht hat
-            if (!atEntry && Vector3.Distance(transform.position, currentTarget.position) < 0.1f)
+            if (!atEntry && Vector3.Distance(transform.position, targetPosition) < 0.1f)
             {
                 atEntry = true;  // Markiere, dass der Eingang erreicht wurde
                 currentTarget = finalTarget;  // Jetzt zum Endziel weiterfahren
