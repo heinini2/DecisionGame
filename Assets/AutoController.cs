@@ -71,4 +71,12 @@ public class AutoController : MonoBehaviour
         finalTarget = rightLaneTarget;
         atEntry = false;
     }
+
+    public void StopMovement()
+    {
+        Debug.Log("StopMovement wurde aufgerufen!");
+        currentTarget = null;
+        finalTarget = null;
+        
+    }
 }
