@@ -5,6 +5,10 @@ using UnityEngine;
 public class AutoController : MonoBehaviour
 {
 
+    public GameManager gameManager; // Referenz zum GameManager
+
+    public GameObject spatialPanel; // Das Panel, das die Auswahl enthält
+
     public Transform leftLaneEntry;  // Eingang des linken Tunnels
     public Transform middleLaneEntry; // Eingang des mittleren Tunnels
     public Transform rightLaneEntry;  // Eingang des rechten Tunnels
@@ -56,6 +60,12 @@ public class AutoController : MonoBehaviour
         currentTarget = leftLaneEntry;  // Erst zum Eingang
         finalTarget = leftLaneTarget;   // Dann weiter ins Innere
         atEntry = false;
+        spatialPanel.SetActive(false); // Panel wird unsichtbar
+
+        if (gameManager != null)
+        {
+            gameManager.PlayerChoseTunnel(0); // Informiert den GameManager über die Wahl
+        }
     }
 
     public void SelectMiddleLane()
@@ -63,6 +73,12 @@ public class AutoController : MonoBehaviour
         currentTarget = middleLaneEntry;
         finalTarget = middleLaneTarget;
         atEntry = false;
+        spatialPanel.SetActive(false); // Panel wird unsichtbar
+
+        if (gameManager != null)
+        {
+            gameManager.PlayerChoseTunnel(1);
+        }
     }
 
     public void SelectRightLane()
@@ -70,6 +86,12 @@ public class AutoController : MonoBehaviour
         currentTarget = rightLaneEntry;
         finalTarget = rightLaneTarget;
         atEntry = false;
+        spatialPanel.SetActive(false); // Panel wird unsichtbar
+
+        if (gameManager != null)
+        {
+            gameManager.PlayerChoseTunnel(2);
+        }
     }
 
     public void StopMovement()
@@ -78,5 +100,21 @@ public class AutoController : MonoBehaviour
         currentTarget = null;
         finalTarget = null;
         
+    }
+
+    public void SetTarget(Transform entry, Transform target)
+    {
+        currentTarget = entry;
+        finalTarget = target;
+        atEntry = false;
+    }
+
+    public void ResetToStartPosition()
+    {
+        transform.position = new Vector3(0f, 0.6492629f, 0f); // Zurück zu den Startkoordinaten
+        currentTarget = null;
+        finalTarget = null;
+        atEntry = false;
+        spatialPanel.SetActive(true); // Panel wird sichtbar
     }
 }
