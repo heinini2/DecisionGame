@@ -9,26 +9,39 @@ public class GameManager : MonoBehaviour
     public GameObject[] avatars; // Die drei Avatare über den Tunneln
     public TMP_Text recommendationText; // UI-Text für Empfehlung
     public TMP_Text roundText; // UI-Text für Runde
-    
     public TMP_Text blackBoxText; // Der Text in der BlackBox
 
     private int currentRound = 0;
     private int correctTunnelIndex;
     private int recommendedTunnelIndex;
     private int maxRounds = 7;
+    private int avatarSet = 0;
 
     void Start()
     {
         
         StartNewRound();
+        avatars[avatarSet].SetActive(true);
+        avatars[1].SetActive(false);
+        avatars[2].SetActive(false);
     }
 
     public void StartNewRound()
     {
-        if (currentRound >= maxRounds)
+
+        if (avatarSet == 2 && currentRound ==maxRounds)
         {
             EndGame();
             return;
+        }
+
+        if (currentRound == maxRounds)
+        {
+            currentRound = 0;
+            avatars[avatarSet].SetActive(false);
+            avatarSet++;
+            avatars[avatarSet].SetActive(true);
+
         }
 
         // Zufälliges richtiges Tunnel wählen (0 = Links, 1 = Mitte, 2 = Rechts)
@@ -47,11 +60,6 @@ public class GameManager : MonoBehaviour
             } while (recommendedTunnelIndex == correctTunnelIndex);
         }
 
-        // Zeige den Avatar über dem empfohlenen Tunnel
-        for (int i = 0; i < avatars.Length; i++)
-        {
-            avatars[i].SetActive(i == recommendedTunnelIndex);
-        }
 
         // Empfehlungstext setzen
         recommendationText.text = "Ich empfehle dir, in den " + GetTunnelName(recommendedTunnelIndex) + " Tunnel zu fahren!";
