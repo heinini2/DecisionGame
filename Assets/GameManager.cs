@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
         StartNewRound();
     }
 
-    void StartNewRound()
+    public void StartNewRound()
     {
         if (currentRound >= maxRounds)
         {

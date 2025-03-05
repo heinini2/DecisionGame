@@ -116,5 +116,6 @@ public class AutoController : MonoBehaviour
         finalTarget = null;
         atEntry = false;
         spatialPanel.SetActive(true); // Panel wird sichtbar
+        gameManager.StartNewRound(); // Startet eine neue Runde
     }
 }
