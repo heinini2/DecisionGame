@@ -24,7 +24,7 @@ public class TunnelTeleport : MonoBehaviour
         // Bewegung nach dem Teleport stoppen   
             autoController.StopMovement(); // Beendet die Bewegung im Auto-Skript
 
-        StartCoroutine(DelayMethod(10f)); // 10 Sekunden Delay
+        StartCoroutine(DelayMethod(5f)); // 10 Sekunden Delay
 
 
         

@@ -92,7 +92,7 @@ public class GameManager : MonoBehaviour
         PlayRecommendationAudio(recommendedTunnelIndex);
         
         // Empfehlungstext setzen
-        recommendationText.text = "Ich empfehle dir, in den " + GetTunnelName(recommendedTunnelIndex) + " Tunnel zu fahren!";
+        recommendationText.text = "Ich empfehle dir, in den " + GetTunnelName(recommendedTunnelIndex) + " Tunnel auszuwählen!";
 
         // Runde aktualisieren
         roundText.text = "Runde " + (currentRound + 1) + " / " + maxRounds;
@@ -102,6 +102,20 @@ public class GameManager : MonoBehaviour
 
     public void PlayRecommendationAudio(int tunnelIndex)
     {
+
+        if (audioSource == null) return; // Falls keine AudioSource vorhanden ist, nichts tun
+
+        if (tunnelIndex == 0)
+            audioSource.PlayOneShot(audioLeft); // Links
+        else if (tunnelIndex == 1)
+            audioSource.PlayOneShot(audioMiddle); // Mitte
+        else
+            audioSource.PlayOneShot(audioRight); // Rechts
+    }
+
+    public void RePlayRecommendationAudio()
+    {
+        int tunnelIndex = recommendedTunnelIndex;
         if (audioSource == null) return; // Falls keine AudioSource vorhanden ist, nichts tun
 
         if (tunnelIndex == 0)
@@ -122,11 +136,11 @@ public class GameManager : MonoBehaviour
         
         if (chosenTunnel == correctTunnelIndex)
         {
-            blackBoxText.text = "✅ Richtige Entscheidung!";
+            blackBoxText.text = "Richtige Entscheidung!";
         }
         else
         {
-            blackBoxText.text = "❌ Falsche Entscheidung!";
+            blackBoxText.text = "Falsche Entscheidung!";
         }
 
         
