@@ -7,9 +7,18 @@ public class GameManager : MonoBehaviour
 {
     public AutoController autoController; // Referenz zum AutoController
     public GameObject[] avatars; // Die drei Avatare über den Tunneln
+    public GameObject buttonleft;
+    public GameObject buttonmiddle;
+    public GameObject buttonright;
+    public GameObject buttonstart;
     public TMP_Text recommendationText; // UI-Text für Empfehlung
     public TMP_Text roundText; // UI-Text für Runde
     public TMP_Text blackBoxText; // Der Text in der BlackBox
+
+    public AudioSource audioSource; // Die Audioquelle für die Avatar-Sprachausgabe
+    public AudioClip audioLeft; // Empfehlung für linken Tunnel
+    public AudioClip audioMiddle; // Empfehlung für mittleren Tunnel
+    public AudioClip audioRight; // Empfehlung für rechten Tunnel
 
     private int currentRound = 0;
     private int correctTunnelIndex;
@@ -19,11 +28,30 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        
+        recommendationText.text = "Drücke 'Start', um das Spiel zu beginnen!";
+        roundText.text = "";
+        blackBoxText.text = "";
+        buttonleft.SetActive(false);
+        buttonmiddle.SetActive(false);
+        buttonright.SetActive(false);
+        buttonstart.SetActive(true);
+        foreach (GameObject avatar in avatars)
+        {
+            avatar.SetActive(false);
+        }
+
+    }
+
+    public void StartGame()
+    {
         StartNewRound();
         avatars[avatarSet].SetActive(true);
-        avatars[1].SetActive(false);
-        avatars[2].SetActive(false);
+        // avatars[1].SetActive(false);
+        // avatars[2].SetActive(false);
+        buttonleft.SetActive(true);
+        buttonmiddle.SetActive(true);
+        buttonright.SetActive(true);
+        buttonstart.SetActive(false);
     }
 
     public void StartNewRound()
@@ -60,7 +88,9 @@ public class GameManager : MonoBehaviour
             } while (recommendedTunnelIndex == correctTunnelIndex);
         }
 
-
+        //  Empfehlung als Audio abspielen
+        PlayRecommendationAudio(recommendedTunnelIndex);
+        
         // Empfehlungstext setzen
         recommendationText.text = "Ich empfehle dir, in den " + GetTunnelName(recommendedTunnelIndex) + " Tunnel zu fahren!";
 
@@ -69,6 +99,19 @@ public class GameManager : MonoBehaviour
 
         currentRound++;
     }
+
+    public void PlayRecommendationAudio(int tunnelIndex)
+    {
+        if (audioSource == null) return; // Falls keine AudioSource vorhanden ist, nichts tun
+
+        if (tunnelIndex == 0)
+            audioSource.PlayOneShot(audioLeft); // Links
+        else if (tunnelIndex == 1)
+            audioSource.PlayOneShot(audioMiddle); // Mitte
+        else
+            audioSource.PlayOneShot(audioRight); // Rechts
+    }
+
 
     public void PlayerChoseTunnel(int chosenTunnel)
     {
